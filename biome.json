@@ -8,6 +8,16 @@
     "lineWidth": 100,
     "lineEnding": "lf"
   },
+  "linter": {
+    "rules": {
+      "correctness": {
+        "noUnusedVariables": "off"
+      },
+      "style": {
+        "useImportType": "off"
+      }
+    }
+  },
   "javascript": {
     "formatter": {
       "arrowParentheses": "always",
@@ -18,6 +28,9 @@
       "quoteProperties": "asNeeded",
       "semicolons": "always",
       "trailingCommas": "all"
+    },
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
     }
   },
   "json": {
