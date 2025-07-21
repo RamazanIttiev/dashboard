@@ -14,7 +14,7 @@ import { AuthService } from './auth.service';
     JwtModule.register({
       global: true,
       secret: process.env.JWT_ACCESS_SECRET,
-      signOptions: { expiresIn: process.env.EXPIRES_IN },
+      signOptions: { expiresIn: `${process.env.ACCESS_TOKEN_EXPIRES_IN}s` },
     }),
   ],
   exports: [AuthService],
