@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { Public } from '../shared/utils/decorators';
-import { AccessTokenPayload, LogInDto } from './auth.model';
+import { AccessTokenPayload, LogInDto, SignUpDto } from './auth.model';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -22,9 +22,26 @@ export class AuthController {
 
   @Public()
   @HttpCode(HttpStatus.OK)
-  @Post('login')
-  async logIn(@Res() res: Response, @Body() loginDto: LogInDto): Promise<AccessTokenPayload> {
-    const { access_token, refresh_token } = await this.authService.logIn({ ...loginDto });
+  @Post('signUp')
+  async signUp(
+    @Res({ passthrough: true }) res: Response,
+    @Body() signUpDto: SignUpDto,
+  ): Promise<AccessTokenPayload> {
+    const { access_token, refresh_token } = await this.authService.signUp({ ...signUpDto });
+
+    this.setCookies(refresh_token, res);
+
+    return { access_token };
+  }
+
+  @Public()
+  @HttpCode(HttpStatus.OK)
+  @Post('logIn')
+  async logIn(
+    @Res({ passthrough: true }) res: Response,
+    @Body() logInDto: LogInDto,
+  ): Promise<AccessTokenPayload> {
+    const { access_token, refresh_token } = await this.authService.logIn({ ...logInDto });
 
     this.setCookies(refresh_token, res);
 

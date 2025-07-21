@@ -5,18 +5,26 @@ import type { UseDTO } from './users.dto';
 export class UsersService {
   private readonly users = [
     {
-      userId: 1,
+      id: '1',
+      email: 'example@mail.com',
       username: 'john',
       password: 'changeme',
     },
     {
-      userId: 2,
+      id: '2',
+      email: 'example@mail.ru',
       username: 'maria',
       password: 'guess',
     },
   ];
 
-  async findOne(username: string): Promise<UseDTO | undefined> {
-    return this.users.find((user) => user.username === username);
+  async create(user: UseDTO): Promise<UseDTO> {
+    // In a real application, you would hash the password and save it to a database
+    this.users.push(user);
+    return user;
+  }
+
+  async findOne(id: string): Promise<UseDTO | undefined> {
+    return this.users.find((user) => user.id === id);
   }
 }

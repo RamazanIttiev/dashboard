@@ -6,9 +6,15 @@ export interface RefreshTokenPayload {
   refresh_token: string;
 }
 
-export type LoginResponse = AccessTokenPayload & RefreshTokenPayload;
+export type JWTTokens = AccessTokenPayload & RefreshTokenPayload;
 
 export interface LogInDto {
   username: string;
+  password: string;
+}
+
+export interface SignUpDto {
+  username: string;
+  email: string;
   password: string;
 }
