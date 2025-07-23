@@ -9,7 +9,7 @@ export interface RefreshTokenPayload {
 export type JWTTokens = AccessTokenPayload & RefreshTokenPayload;
 
 export interface LogInDto {
-  username: string;
+  email: string;
   password: string;
 }
 

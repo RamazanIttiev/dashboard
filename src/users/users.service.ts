@@ -1,30 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import type { UseDTO } from './users.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from './user.entity';
 
 @Injectable()
 export class UsersService {
-  private readonly users = [
-    {
-      id: '1',
-      email: 'example@mail.com',
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      id: '2',
-      email: 'example@mail.ru',
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
+  constructor(
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
+  ) {}
 
-  async create(user: UseDTO): Promise<UseDTO> {
-    // In a real application, you would hash the password and save it to a database
-    this.users.push(user);
-    return user;
+  async findByEmail(email: string): Promise<User | null> {
+    return await this.usersRepository.findOne({ where: { email } });
   }
 
-  async findOne(id: string): Promise<UseDTO | undefined> {
-    return this.users.find((user) => user.id === id);
+  async create(user: User): Promise<string> {
+    const created = await this.usersRepository.save(user);
+
+    return created.id;
   }
 }
