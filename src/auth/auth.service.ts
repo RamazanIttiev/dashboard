@@ -39,13 +39,13 @@ export class AuthService {
   }
 
   async logIn(@Body() body: LogInDto): Promise<JWTTokens> {
-    const { username, password: pass } = body;
+    const { email, password: pass } = body;
 
-    const user = await this.usersService.findOne(username);
+    const user = await this.usersService.findByEmail(email);
 
     if (user?.password !== pass) throw new UnauthorizedException();
 
-    const { access_token, refresh_token } = await this.generateTokens(user.id.toString());
+    const { access_token, refresh_token } = await this.generateTokens(user.id);
 
     return {
       access_token,
@@ -54,9 +54,9 @@ export class AuthService {
   }
 
   async signUp(@Body() body: SignUpDto): Promise<JWTTokens> {
-    const { username, password: pass } = body;
+    const { email, password: pass } = body;
 
-    const userExists = Boolean(await this.usersService.findOne(username));
+    const userExists = Boolean(await this.usersService.findByEmail(email));
     // 1. Validate and sanitize input
     // 2. Check if user/email already exists
     if (userExists) throw new Error('User already exists. Please log in.');
@@ -67,9 +67,9 @@ export class AuthService {
     // 4. Save new user to DB
     const payload = { ...body, id: uuid(), password: hash };
 
-    const newUser = await this.usersService.create(payload);
+    const newUserId = await this.usersService.create(payload);
 
-    const { access_token, refresh_token } = await this.generateTokens(newUser.id);
+    const { access_token, refresh_token } = await this.generateTokens(newUserId);
 
     return { access_token, refresh_token };
   }

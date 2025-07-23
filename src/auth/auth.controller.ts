@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { Public } from '../shared/utils/decorators';
 import { AccessTokenPayload, LogInDto, SignUpDto } from './auth.model';
@@ -60,10 +60,5 @@ export class AuthController {
     this.setCookies(refresh_token, res);
 
     return { access_token };
-  }
-
-  @Get('profile')
-  getProfile(@Req() req) {
-    return req.user;
   }
 }
