@@ -48,6 +48,19 @@ export class AuthController {
     return { access_token };
   }
 
+  @Public()
+  @Post('logout')
+  @HttpCode(HttpStatus.OK)
+  logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie('refresh_token', {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+    });
+
+    return res.status(HttpStatus.OK).send({ message: 'Logged out successfully', ok: true });
+  }
+
   @Post('refresh')
   async refresh(
     @Req() req: Request,
