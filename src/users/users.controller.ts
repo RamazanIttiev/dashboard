@@ -1,5 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
-import { Public } from '../shared/utils/decorators';
+import { Controller, Get, Param } from '@nestjs/common';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
 
@@ -7,9 +6,8 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  @Public()
-  @Get('findUser')
-  async findUser(@Query('email') email: string): Promise<User | null> {
-    return await this.usersService.findByEmail(email);
+  @Get(':email')
+  async findUser(@Param('email') email: string): Promise<User | null> {
+    return this.usersService.findByEmail(email);
   }
 }

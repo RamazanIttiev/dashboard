@@ -3,13 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
 import { v4 as uuid } from 'uuid';
 import { UsersService } from '../users/users.service';
-import {
-  AccessTokenPayload,
-  JWTTokens,
-  LogInDto,
-  RefreshTokenPayload,
-  SignUpDto,
-} from './auth.model';
+import { AccessTokenPayload, JWTTokens, LogInDto, RefreshTokenPayload, SignUpDto } from './auth.model';
 
 @Injectable()
 export class AuthService {
@@ -39,11 +33,15 @@ export class AuthService {
   }
 
   async logIn(@Body() body: LogInDto): Promise<JWTTokens> {
-    const { email, password: pass } = body;
+    const { email, password } = body;
 
     const user = await this.usersService.findByEmail(email);
 
-    if (user?.password !== pass) throw new UnauthorizedException();
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Password is incorrect');
+    }
 
     const { access_token, refresh_token } = await this.generateTokens(user.id);
 
@@ -54,17 +52,8 @@ export class AuthService {
   }
 
   async signUp(@Body() body: SignUpDto): Promise<JWTTokens> {
-    const { email, password: pass } = body;
+    const hash = await bcrypt.hash(body.password, 10);
 
-    const userExists = Boolean(await this.usersService.findByEmail(email));
-    // 1. Validate and sanitize input
-    // 2. Check if user/email already exists
-    if (userExists) throw new Error('User already exists. Please log in.');
-
-    // 3. Hash password using bcrypt
-    const hash = await bcrypt.hash(pass, 10);
-
-    // 4. Save new user to DB
     const payload = { ...body, id: uuid(), password: hash };
 
     const newUserId = await this.usersService.create(payload);
