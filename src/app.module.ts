@@ -4,14 +4,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { Student } from './student/student.entity';
+import { StudentModule } from './student/student.module';
 import { User } from './users/user.entity';
 import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
     AuthModule,
     UsersModule,
+    StudentModule,
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
@@ -19,7 +22,8 @@ import { UsersModule } from './users/users.module';
       username: 'postgres',
       password: 'postgres',
       database: 'crm_postgres',
-      entities: [User],
+      entities: [User, Student],
+      autoLoadEntities: true,
       // Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
       synchronize: true,
     }),
