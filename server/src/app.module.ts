@@ -1,13 +1,13 @@
+import { AuthModule } from '@auth/auth.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Student } from '@student/student.entity';
+import { StudentModule } from '@student/student.module';
+import { User } from '@users/user.entity';
+import { UsersModule } from '@users/users.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
-import { Student } from './student/student.entity';
-import { StudentModule } from './student/student.module';
-import { User } from './users/user.entity';
-import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
