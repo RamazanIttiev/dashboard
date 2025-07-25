@@ -3,6 +3,20 @@
 /node_modules
 /build
 
+#server
+
+/server/node_modules
+/server/dist
+/server/.idea
+/server/.env
+
+# client
+
+/client/node_modules
+/client/dist
+/client/.idea
+/client/.env
+
 # Logs
 logs
 *.log

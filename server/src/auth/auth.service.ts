@@ -1,8 +1,8 @@
 import { Body, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { UsersService } from '@users/users.service';
 import bcrypt from 'bcrypt';
 import { v4 as uuid } from 'uuid';
-import { UsersService } from '../users/users.service';
 import { AccessTokenPayload, JWTTokens, LogInDto, RefreshTokenPayload, SignUpDto } from './auth.model';
 
 @Injectable()
