@@ -1,8 +1,8 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, Req, Res } from '@nestjs/common';
-import { Public } from '@shared/utils/decorators';
-import { Request, Response } from 'express';
-import { AccessTokenPayload, LogInDto, SignUpDto } from './auth.model';
-import { AuthService } from './auth.service';
+import {Body, Controller, HttpCode, HttpStatus, Post, Req, Res} from '@nestjs/common';
+import {Public} from '@shared/utils/decorators';
+import {Request, Response} from 'express';
+import {AccessTokenPayload, LogInDto, SignUpDto} from './auth.model';
+import {AuthService} from './auth.service';
 
 @Controller('auth')
 export class AuthController {
@@ -46,6 +46,18 @@ export class AuthController {
     this.setCookies(refresh_token, res);
 
     return { access_token };
+  }
+
+  @Post('validate')
+  @HttpCode(HttpStatus.OK)
+  async validate(@Req() req: Request): Promise<{ isValid: boolean }> {
+    const token = req.headers.authorization?.substring(7); // substring(7) removes "Bearer " prefix
+
+    if (!token) {
+      return { isValid: false };
+    }
+
+    return await this.authService.validateToken(token);
   }
 
   @Public()
