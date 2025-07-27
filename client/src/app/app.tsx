@@ -1,27 +1,27 @@
-import type { Component } from 'solid-js';
-import styles from '@/App.module.css';
+import { Layout, useAppContext } from '@features/layout/layout.component';
+import { SignUpPage } from '@features/pages/sign-up/sign-up.page';
+import { RouteGuard } from '@features/protected-route';
+import { Route, Router } from '@solidjs/router';
 
-import logo from '@/assets/logo.svg';
-
-const App: Component = () => {
+export const App = () => {
   return (
-    <div class={styles.App}>
-      <header class={styles.header}>
-        <img src={logo} class={styles.logo} alt='logo' />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          class={styles.link}
-          href='https://github.com/solidjs/solid'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          Learn Solid
-        </a>
-      </header>
-    </div>
+    <Router root={Layout}>
+      <Route path='/signUp' component={SignUpPage} />
+      <Route component={RouteGuard}>
+        <Route
+          path='/'
+          component={() => {
+            const { setIsAuthenticated } = useAppContext();
+            return (
+              <button type={'button'} onClick={() => setIsAuthenticated(false)}>
+                Logout
+              </button>
+            );
+          }}
+        />
+      </Route>
+
+      <Route path='*' component={() => <div>Page Not found!!!</div>} />
+    </Router>
   );
 };
-
-export default App;
