@@ -1,4 +1,5 @@
-import { Layout, useAppContext } from '@features/layout/layout.component';
+import { Layout } from '@features/layout/layout.component';
+import { LogInPage } from '@features/pages/log-in/log-in.page';
 import { SignUpPage } from '@features/pages/sign-up/sign-up.page';
 import { RouteGuard } from '@features/protected-route';
 import { Route, Router } from '@solidjs/router';
@@ -7,26 +8,9 @@ export const App = () => {
   return (
     <Router root={Layout}>
       <Route path='/signUp' component={SignUpPage} />
+      <Route path='/logIn' component={LogInPage} />
       <Route component={RouteGuard}>
-        <Route
-          path='/'
-          component={() => {
-            const { isAuthenticated, setIsAuthenticated } = useAppContext();
-            console.log('isAuthenticated', isAuthenticated());
-
-            return (
-              <button
-                type={'button'}
-                onClick={() => setIsAuthenticated(false)}
-                class='inline-block cursor-pointer rounded-md bg-blue-500 px-4 py-3
-  text-center text-sm font-semibold uppercase text-white transition
-  duration-200 ease-in-out hover:bg-blue-600'
-              >
-                Button
-              </button>
-            );
-          }}
-        />
+        <Route path='/' component={() => <div>WELCOME</div>} />
       </Route>
 
       <Route path='*' component={() => <div>Page Not found!!!</div>} />
