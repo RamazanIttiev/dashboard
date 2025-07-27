@@ -50,6 +50,7 @@ export const LogInPage = () => {
               id='userEmail'
               type='email'
               label='Email address*'
+              autocomplete='email'
               placeholder='Enter your email'
               required
               value={store.userEmail}
@@ -58,6 +59,7 @@ export const LogInPage = () => {
             <PasswordField
               id='userPassword'
               label='Password*'
+              autocomplete='current-password'
               placeholder='••••••••'
               value={store.userPassword}
               onChange={(e) => handleFieldChange('userPassword', e.currentTarget.value)}

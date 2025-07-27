@@ -7,8 +7,8 @@ import { Route, Router } from '@solidjs/router';
 export const App = () => {
   return (
     <Router root={Layout}>
-      <Route path='/signUp' component={SignUpPage} />
       <Route path='/logIn' component={LogInPage} />
+      <Route path='/signUp' component={SignUpPage} />
       <Route component={RouteGuard}>
         <Route path='/' component={() => <div>WELCOME</div>} />
       </Route>

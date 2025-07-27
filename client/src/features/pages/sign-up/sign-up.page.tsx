@@ -58,6 +58,7 @@ export const SignUpPage = () => {
               id='userName'
               type='text'
               label='Username*'
+              autocomplete='username'
               placeholder='Enter your username'
               required
               value={store.userName}
@@ -67,6 +68,7 @@ export const SignUpPage = () => {
               id='userEmail'
               type='email'
               label='Email address*'
+              autocomplete='email'
               placeholder='Enter your email'
               required
               value={store.userEmail}
@@ -76,6 +78,7 @@ export const SignUpPage = () => {
               id='userPassword'
               label='Password*'
               placeholder='••••••••'
+              autocomplete='new-password'
               value={store.userPassword}
               onChange={(e) => handleFieldChange('userPassword', e.currentTarget.value)}
             />
@@ -83,6 +86,7 @@ export const SignUpPage = () => {
               id='userConfirmPassword'
               label='Confirm Password*'
               placeholder='••••••••'
+              autocomplete='new-password'
               value={store.userConfirmPassword}
               onChange={(e) => handleFieldChange('userConfirmPassword', e.currentTarget.value)}
             />

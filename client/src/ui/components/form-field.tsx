@@ -5,6 +5,7 @@ export const FormField = (props: {
   placeholder?: string;
   required?: boolean;
   value: string | number | undefined;
+  autocomplete: AutoFill;
   onChange: (e: InputEvent & { currentTarget: HTMLInputElement }) => void;
 }) => (
   <div>
@@ -15,6 +16,7 @@ export const FormField = (props: {
       id={props.id}
       type={props.type}
       class='input'
+      autocomplete={props.autocomplete}
       placeholder={props.placeholder}
       required={props.required}
       value={props.value}

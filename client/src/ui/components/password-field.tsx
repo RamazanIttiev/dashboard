@@ -5,6 +5,7 @@ export const PasswordField = (props: {
   label: string;
   placeholder?: string;
   value: string | number | undefined;
+  autocomplete: AutoFill;
   onChange: (e: InputEvent & { currentTarget: HTMLInputElement }) => void;
 }) => {
   const [visible, setVisible] = createSignal(false);
@@ -21,6 +22,7 @@ export const PasswordField = (props: {
           aria-hidden={visible()}
           placeholder={props.placeholder}
           required
+          autocomplete={props.autocomplete}
           value={props.value}
           onInput={props.onChange}
         />
