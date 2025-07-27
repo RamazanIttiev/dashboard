@@ -4,6 +4,8 @@ export const FormField = (props: {
   type: string;
   placeholder?: string;
   required?: boolean;
+  value: string | number | undefined;
+  onChange: (e: InputEvent & { currentTarget: HTMLInputElement }) => void;
 }) => (
   <div>
     <label class='label-text' for={props.id}>
@@ -15,6 +17,8 @@ export const FormField = (props: {
       class='input'
       placeholder={props.placeholder}
       required={props.required}
+      value={props.value}
+      onInput={props.onChange}
     />
   </div>
 );

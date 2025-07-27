@@ -1,6 +1,12 @@
 import { createSignal } from 'solid-js';
 
-export const PasswordField = (props: { id: string; label: string; placeholder?: string }) => {
+export const PasswordField = (props: {
+  id: string;
+  label: string;
+  placeholder?: string;
+  value: string | number | undefined;
+  onChange: (e: InputEvent & { currentTarget: HTMLInputElement }) => void;
+}) => {
   const [visible, setVisible] = createSignal(false);
 
   return (
@@ -15,6 +21,8 @@ export const PasswordField = (props: { id: string; label: string; placeholder?: 
           aria-hidden={visible()}
           placeholder={props.placeholder}
           required
+          value={props.value}
+          onInput={props.onChange}
         />
         <button
           type='button'

@@ -11,7 +11,9 @@ export const App = () => {
         <Route
           path='/'
           component={() => {
-            const { setIsAuthenticated } = useAppContext();
+            const { isAuthenticated, setIsAuthenticated } = useAppContext();
+            console.log('isAuthenticated', isAuthenticated());
+
             return (
               <button
                 type={'button'}

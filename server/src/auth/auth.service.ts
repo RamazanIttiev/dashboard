@@ -1,9 +1,9 @@
-import { Body, Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { UsersService } from '@users/users.service';
+import {Body, Injectable, UnauthorizedException} from '@nestjs/common';
+import {JwtService} from '@nestjs/jwt';
+import {UsersService} from '@users/users.service';
 import bcrypt from 'bcrypt';
-import { v4 as uuid } from 'uuid';
-import { AccessTokenPayload, JWTTokens, LogInDto, RefreshTokenPayload, SignUpDto } from './auth.model';
+import {v4 as uuid} from 'uuid';
+import {AccessTokenPayload, JWTTokens, LogInDto, RefreshTokenPayload, SignUpDto,} from './auth.model';
 
 @Injectable()
 export class AuthService {
@@ -71,7 +71,7 @@ export class AuthService {
         secret: process.env.JWT_REFRESH_SECRET,
       });
 
-      // Optional: Check if token exists in DB and is valid
+      // Optional: Check if token exists in DB and is isValid
 
       const newAccessToken = await this.jwtService.signAsync(
         { id: payload.sub },
@@ -92,6 +92,19 @@ export class AuthService {
       return { access_token: newAccessToken, refresh_token: newRefreshToken };
     } catch (e) {
       throw new UnauthorizedException();
+    }
+  }
+
+  async validateToken(@Body('access_token') access_token: string): Promise<{ isValid: boolean }> {
+    try {
+      const payload = await this.jwtService.verifyAsync(access_token, {
+        secret: process.env.JWT_ACCESS_SECRET,
+      });
+
+      console.log(payload);
+      return { isValid: true };
+    } catch (e) {
+      return { isValid: false };
     }
   }
 }
