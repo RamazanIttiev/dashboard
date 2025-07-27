@@ -11,10 +11,12 @@
   "linter": {
     "rules": {
       "a11y": {
-        "useValidAnchor": "off"
+        "useValidAnchor": "off",
+        "noSvgWithoutTitle": "off"
       },
       "correctness": {
-        "noUnusedVariables": "off"
+        "noUnusedVariables": "off",
+        "noUnknownProperty": "off"
       },
       "style": {
         "useImportType": "off"

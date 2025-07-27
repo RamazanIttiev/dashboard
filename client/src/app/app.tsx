@@ -13,8 +13,14 @@ export const App = () => {
           component={() => {
             const { setIsAuthenticated } = useAppContext();
             return (
-              <button type={'button'} onClick={() => setIsAuthenticated(false)}>
-                Logout
+              <button
+                type={'button'}
+                onClick={() => setIsAuthenticated(false)}
+                class='inline-block cursor-pointer rounded-md bg-blue-500 px-4 py-3
+  text-center text-sm font-semibold uppercase text-white transition
+  duration-200 ease-in-out hover:bg-blue-600'
+              >
+                Button
               </button>
             );
           }}
