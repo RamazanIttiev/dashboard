@@ -10,6 +10,9 @@
   },
   "linter": {
     "rules": {
+      "a11y": {
+        "useValidAnchor": "off"
+      },
       "correctness": {
         "noUnusedVariables": "off"
       },
