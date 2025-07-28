@@ -1,3 +1,4 @@
+import { Sidebar } from '@features/pages/sidebar/sidebar.component';
 import { useLocation } from '@solidjs/router';
 import { createContext, createEffect, createSignal, ParentComponent, useContext } from 'solid-js';
 

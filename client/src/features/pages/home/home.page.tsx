@@ -1,4 +1,5 @@
 import { LOGIN_ROUTE } from '@constants/routes.constants';
+import { Sidebar } from '@features/pages/sidebar/sidebar.component';
 import { AuthService } from '@services/auth.service';
 import { useNavigate } from '@solidjs/router';
 
@@ -15,9 +16,5 @@ export const HomePage = () => {
     }
   };
 
-  return (
-    <button onClick={handleLogout} type={'button'} class='btn btn-outline'>
-      Logout
-    </button>
-  );
+  return <Sidebar />;
 };
