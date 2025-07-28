@@ -1,11 +1,12 @@
-import { LOGIN_ROUTE } from '@constants/routes.constants';
+import { HOME_ROUTE, LOGIN_ROUTE } from '@constants/routes.constants';
 import { AuthService } from '@services/auth.service';
-import { Navigate } from '@solidjs/router';
-import { createSignal, Match, onMount, ParentComponent, Switch } from 'solid-js';
+import { Navigate, useLocation, useNavigate } from '@solidjs/router';
+import { createSignal, Match, onMount, ParentProps, Switch } from 'solid-js';
 
-export const RouteGuard: ParentComponent = (props) => {
+export const RouteGuard = (props: ParentProps) => {
   const [isAuthenticated, setIsAuthenticated] = createSignal<boolean | null>(null);
-
+  const navigate = useNavigate();
+  const location = useLocation();
   const authService = new AuthService();
 
   onMount(async () => {
@@ -17,6 +18,8 @@ export const RouteGuard: ParentComponent = (props) => {
 
     if (isValid) {
       setIsAuthenticated(true);
+
+      location.pathname === HOME_ROUTE && navigate('/students');
     } else {
       localStorage.removeItem('access_token');
       setIsAuthenticated(false);

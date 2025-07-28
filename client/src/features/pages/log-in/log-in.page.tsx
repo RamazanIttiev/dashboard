@@ -1,4 +1,4 @@
-import { SIGNUP_ROUTE } from '@constants/routes.constants';
+import { SIGNUP_ROUTE, STUDENTS_ROUTE } from '@constants/routes.constants';
 import { AuthService } from '@services/auth.service';
 import { useNavigate } from '@solidjs/router';
 import { FormField } from '@ui/components/form-field';
@@ -35,7 +35,7 @@ export const LogInPage = () => {
       localStorage.setItem('access_token', access_token);
 
       if (access_token) {
-        navigate('/', { replace: true });
+        navigate(STUDENTS_ROUTE, { replace: true });
       }
     } catch (error) {
       console.error('Error signing up:', error);
