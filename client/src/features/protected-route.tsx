@@ -1,6 +1,7 @@
+import { LOGIN_ROUTE } from '@constants/routes.constants';
+import { AuthService } from '@services/auth.service';
 import { Navigate } from '@solidjs/router';
 import { createSignal, Match, onMount, ParentComponent, Switch } from 'solid-js';
-import { AuthService } from '../services/auth.service';
 
 export const RouteGuard: ParentComponent = (props) => {
   const [isAuthenticated, setIsAuthenticated] = createSignal<boolean | null>(null);
@@ -29,7 +30,7 @@ export const RouteGuard: ParentComponent = (props) => {
       </Match>
       <Match when={isAuthenticated()}>{props.children}</Match>
       <Match when={isAuthenticated() === false}>
-        <Navigate href='/signUp' />
+        <Navigate href={LOGIN_ROUTE} />
       </Match>
     </Switch>
   );

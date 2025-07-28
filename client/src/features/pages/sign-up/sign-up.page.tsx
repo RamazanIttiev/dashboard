@@ -1,21 +1,24 @@
+import { LOGIN_ROUTE } from '@constants/routes.constants';
+import { AuthService } from '@services/auth.service';
 import { useNavigate } from '@solidjs/router';
 import { FormField } from '@ui/components/form-field';
 import { PasswordField } from '@ui/components/password-field';
 import { createStore } from 'solid-js/store';
-import { AuthService } from '../../../services/auth.service';
+
+type SignUpFormFields = 'username' | 'email' | 'password' | 'confirmPassword';
 
 export const SignUpPage = () => {
   const authService = new AuthService();
   const navigate = useNavigate();
 
   const [store, setStore] = createStore({
-    userName: '',
-    userEmail: '',
-    userPassword: '',
-    userConfirmPassword: '',
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
   });
 
-  const handleFieldChange = (field: string, value: string | number | string[] | undefined) => {
+  const handleFieldChange = (field: SignUpFormFields, value: string) => {
     setStore(field, value);
   };
 
@@ -23,15 +26,15 @@ export const SignUpPage = () => {
     e.stopPropagation();
     e.preventDefault();
 
-    if (store.userPassword !== store.userConfirmPassword) {
+    if (store.password !== store.confirmPassword) {
       alert('Passwords do not match!');
       return;
     }
 
     const payload = {
-      username: store.userName,
-      email: store.userEmail,
-      password: store.userPassword,
+      username: store.username,
+      email: store.email,
+      password: store.password,
     };
 
     try {
@@ -61,8 +64,8 @@ export const SignUpPage = () => {
               autocomplete='username'
               placeholder='Enter your username'
               required
-              value={store.userName}
-              onChange={(e) => handleFieldChange('userName', e.currentTarget.value)}
+              value={store.username}
+              onChange={(e) => handleFieldChange('username', e.currentTarget.value)}
             />
             <FormField
               id='userEmail'
@@ -71,24 +74,24 @@ export const SignUpPage = () => {
               autocomplete='email'
               placeholder='Enter your email'
               required
-              value={store.userEmail}
-              onChange={(e) => handleFieldChange('userEmail', e.currentTarget.value)}
+              value={store.email}
+              onChange={(e) => handleFieldChange('email', e.currentTarget.value)}
             />
             <PasswordField
               id='userPassword'
               label='Password*'
               placeholder='••••••••'
               autocomplete='new-password'
-              value={store.userPassword}
-              onChange={(e) => handleFieldChange('userPassword', e.currentTarget.value)}
+              value={store.password}
+              onChange={(e) => handleFieldChange('password', e.currentTarget.value)}
             />
             <PasswordField
               id='userConfirmPassword'
               label='Confirm Password*'
               placeholder='••••••••'
               autocomplete='new-password'
-              value={store.userConfirmPassword}
-              onChange={(e) => handleFieldChange('userConfirmPassword', e.currentTarget.value)}
+              value={store.confirmPassword}
+              onChange={(e) => handleFieldChange('confirmPassword', e.currentTarget.value)}
             />
 
             <button
@@ -102,7 +105,7 @@ export const SignUpPage = () => {
 
           <p class='text-base-content/80 mb-4 text-center'>
             Already have an account?
-            <a href={'/logIn'} class='link link-animated link-primary font-normal'>
+            <a href={LOGIN_ROUTE} class='link link-animated link-primary font-normal'>
               LogIn instead
             </a>
           </p>

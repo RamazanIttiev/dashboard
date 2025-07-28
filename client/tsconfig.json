@@ -20,7 +20,8 @@
       "@assets/*": ["src/assets/*"],
       "@models/*": ["src/models/*"],
       "@ui/*": ["src/ui/*"],
-      "@context/*": ["src/context/*"]
+      "@services/*": ["src/services/*"],
+      "@constants/*": ["src/constants/*"]
     }
   }
 }
