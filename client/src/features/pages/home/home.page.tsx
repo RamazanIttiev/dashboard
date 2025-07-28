@@ -1,20 +1,6 @@
-import { LOGIN_ROUTE } from '@constants/routes.constants';
-import { Sidebar } from '@features/pages/sidebar/sidebar.component';
-import { AuthService } from '@services/auth.service';
-import { useNavigate } from '@solidjs/router';
+import { Sidebar } from '@features/sidebar/sidebar.component';
+import { ParentProps } from 'solid-js';
 
-export const HomePage = () => {
-  const navigate = useNavigate();
-  const authService = new AuthService();
-
-  const handleLogout = async () => {
-    try {
-      await authService.logout();
-      navigate(LOGIN_ROUTE);
-    } catch (error) {
-      console.error('Error during logout:', error);
-    }
-  };
-
-  return <Sidebar />;
+export const HomePage = (props: ParentProps) => {
+  return <Sidebar>{props.children}</Sidebar>;
 };

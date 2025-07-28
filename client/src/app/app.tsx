@@ -9,12 +9,15 @@ import { Route, Router } from '@solidjs/router';
 export const App = () => {
   return (
     <Router root={Layout}>
+      <Route component={HomePage}>
+        <Route path='/' component={RouteGuard} />
+        <Route path='/students'>
+          <Route path='/' component={() => <div>STUDENTS</div>} />
+          <Route path='/:id' component={() => <div>1 student</div>} />
+        </Route>
+      </Route>
       <Route path={LOGIN_ROUTE} component={LogInPage} />
       <Route path={SIGNUP_ROUTE} component={SignUpPage} />
-      <Route component={RouteGuard}>
-        <Route path='/' component={HomePage} />
-      </Route>
-
       <Route path='*' component={() => <div>Page Not found!!!</div>} />
     </Router>
   );

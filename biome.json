@@ -16,7 +16,8 @@
       },
       "correctness": {
         "noUnusedVariables": "off",
-        "noUnknownProperty": "off"
+        "noUnknownProperty": "off",
+        "noUnusedImports": "error"
       },
       "style": {
         "useImportType": "off"

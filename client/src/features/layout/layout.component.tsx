@@ -1,4 +1,3 @@
-import { Sidebar } from '@features/pages/sidebar/sidebar.component';
 import { useLocation } from '@solidjs/router';
 import { createContext, createEffect, createSignal, ParentComponent, useContext } from 'solid-js';
 
@@ -16,6 +15,7 @@ async function loadFlyonUI() {
 export const Layout: ParentComponent = (props) => {
   const location = useLocation();
   const [_, setLoc] = createSignal(location.pathname);
+  const [isAuthenticated, setIsAuthenticated] = createSignal(false);
 
   createEffect(() => {
     const initFlyonUI = async () => {
@@ -34,8 +34,6 @@ export const Layout: ParentComponent = (props) => {
       }
     }, 100);
   });
-
-  const [isAuthenticated, setIsAuthenticated] = createSignal(false);
 
   return (
     <AppContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
