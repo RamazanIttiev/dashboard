@@ -1,19 +1,22 @@
+import { SIGNUP_ROUTE } from '@constants/routes.constants';
+import { AuthService } from '@services/auth.service';
 import { useNavigate } from '@solidjs/router';
 import { FormField } from '@ui/components/form-field';
 import { PasswordField } from '@ui/components/password-field';
 import { createStore } from 'solid-js/store';
-import { AuthService } from '../../../services/auth.service';
+
+type LoginStoreFields = 'email' | 'password';
 
 export const LogInPage = () => {
   const authService = new AuthService();
   const navigate = useNavigate();
 
   const [store, setStore] = createStore({
-    userEmail: '',
-    userPassword: '',
+    email: '',
+    password: '',
   });
 
-  const handleFieldChange = (field: string, value: string | number | string[] | undefined) => {
+  const handleFieldChange = (field: LoginStoreFields, value: string) => {
     setStore(field, value);
   };
 
@@ -22,8 +25,8 @@ export const LogInPage = () => {
     e.preventDefault();
 
     const payload = {
-      email: store.userEmail,
-      password: store.userPassword,
+      email: store.email,
+      password: store.password,
     };
 
     try {
@@ -53,16 +56,16 @@ export const LogInPage = () => {
               autocomplete='email'
               placeholder='Enter your email'
               required
-              value={store.userEmail}
-              onChange={(e) => handleFieldChange('userEmail', e.currentTarget.value)}
+              value={store.email}
+              onChange={(e) => handleFieldChange('email', e.currentTarget.value)}
             />
             <PasswordField
               id='userPassword'
               label='Password*'
               autocomplete='current-password'
               placeholder='••••••••'
-              value={store.userPassword}
-              onChange={(e) => handleFieldChange('userPassword', e.currentTarget.value)}
+              value={store.password}
+              onChange={(e) => handleFieldChange('password', e.currentTarget.value)}
             />
 
             <button
@@ -76,7 +79,7 @@ export const LogInPage = () => {
 
           <p class='text-base-content/80 mb-4 text-center'>
             Don't have an account?
-            <a href={'/signUp'} class='link link-animated link-primary font-normal'>
+            <a href={SIGNUP_ROUTE} class='link link-animated link-primary font-normal'>
               Sign up
             </a>
           </p>

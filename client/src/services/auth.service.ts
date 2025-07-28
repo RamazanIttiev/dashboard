@@ -1,18 +1,16 @@
+import {LOGIN_URL, LOGOUT_URL, SIGNUP_URL, VALIDATE_URL} from '@constants/api.constants';
 import {JWTToken, LogInDto, SignUpDto, SignUpResponse} from '@models/auth.model';
 import axios from 'axios';
-
-const LOGIN_URL = `${import.meta.env.VITE_API_URL}/auth/logIn`;
-const SIGNUP_URL = `${import.meta.env.VITE_API_URL}/auth/signUp`;
-const VALIDATE_URL = `${import.meta.env.VITE_API_URL}/auth/validate`;
 
 export class AuthService {
   async login(payload: LogInDto): Promise<JWTToken> {
     try {
       const response = await axios.post(LOGIN_URL, payload);
-      console.log(response);
+
       return response.data;
     } catch (error) {
-      throw new Error(error);
+      console.log(error);
+      throw new Error('AuthService: login');
     }
   }
 
@@ -20,7 +18,20 @@ export class AuthService {
     try {
       return await axios.post(SIGNUP_URL, payload);
     } catch (error) {
-      throw new Error(error);
+      console.log(error);
+      throw new Error('AuthService: signUp');
+    }
+  }
+
+  async logout(): Promise<void> {
+    try {
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        await axios.post(LOGOUT_URL, {}, { headers: { Authorization: `Bearer ${token}` } });
+      }
+      localStorage.removeItem('access_token');
+    } catch (error) {
+      console.error('Error during logout:', error);
     }
   }
 
