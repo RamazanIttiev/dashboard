@@ -3,14 +3,12 @@ import { Layout } from '@features/layout/layout.component';
 import { HomePage } from '@features/pages/home/home.page';
 import { LogInPage } from '@features/pages/log-in/log-in.page';
 import { SignUpPage } from '@features/pages/sign-up/sign-up.page';
-import { RouteGuard } from '@features/protected-route';
 import { Route, Router } from '@solidjs/router';
 
 export const App = () => {
   return (
     <Router root={Layout}>
       <Route component={HomePage}>
-        <Route path='/' component={RouteGuard} />
         <Route path='/students'>
           <Route path='/' component={() => <div>STUDENTS</div>} />
           <Route path='/:id' component={() => <div>1 student</div>} />

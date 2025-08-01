@@ -1,5 +1,11 @@
-import {LOGIN_URL, LOGOUT_URL, SIGNUP_URL, VALIDATE_URL} from '@constants/api.constants';
-import {JWTToken, LogInDto, SignUpDto, SignUpResponse} from '@models/auth.model';
+import {
+  LOGIN_URL,
+  LOGOUT_URL,
+  REFRESH_URL,
+  SIGNUP_URL,
+  VALIDATE_URL,
+} from '@constants/api.constants';
+import { JWTToken, LogInDto, SignUpDto, SignUpResponse } from '@models/auth.model';
 import axios from 'axios';
 
 export class AuthService {
@@ -55,6 +61,17 @@ export class AuthService {
       return {
         isValid: false,
       };
+    }
+  }
+
+  async refreshToken(): Promise<JWTToken> {
+    try {
+      const response = await axios.post(REFRESH_URL);
+
+      return response.data;
+    } catch (error) {
+      console.error('Error refreshing token:', error);
+      throw new Error('AuthService: refreshToken');
     }
   }
 }

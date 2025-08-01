@@ -1,4 +1,4 @@
-import { HOME_ROUTE, LOGIN_ROUTE } from '@constants/routes.constants';
+import { HOME_ROUTE, LOGIN_ROUTE, STUDENTS_ROUTE } from '@constants/routes.constants';
 import { AuthService } from '@services/auth.service';
 import { Navigate, useLocation, useNavigate } from '@solidjs/router';
 import { createSignal, Match, onMount, ParentProps, Switch } from 'solid-js';
@@ -12,16 +12,38 @@ export const RouteGuard = (props: ParentProps) => {
   onMount(async () => {
     const token = localStorage.getItem('access_token');
 
-    if (!token) return setIsAuthenticated(false);
+    if (!token) {
+      setIsAuthenticated(false);
+      return;
+    }
 
-    const { isValid } = await authService.validateToken(token || '');
+    const { isValid } = await authService.validateToken(token);
 
     if (isValid) {
       setIsAuthenticated(true);
 
-      location.pathname === HOME_ROUTE && navigate('/students');
-    } else {
-      localStorage.removeItem('access_token');
+      if (location.pathname === HOME_ROUTE) {
+        navigate(STUDENTS_ROUTE);
+      }
+
+      return;
+    }
+
+    // Token invalid → try refresh
+    try {
+      const { access_token } = await authService.refreshToken();
+
+      if (access_token) {
+        localStorage.setItem('access_token', access_token);
+        setIsAuthenticated(true);
+
+        if (location.pathname === HOME_ROUTE) {
+          navigate(STUDENTS_ROUTE);
+        }
+      } else {
+        setIsAuthenticated(false);
+      }
+    } catch (err) {
       setIsAuthenticated(false);
     }
   });
