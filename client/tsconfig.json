@@ -21,7 +21,8 @@
       "@models/*": ["src/models/*"],
       "@ui/*": ["src/ui/*"],
       "@services/*": ["src/services/*"],
-      "@constants/*": ["src/constants/*"]
+      "@constants/*": ["src/constants/*"],
+      "@stores/*": ["src/stores/*"]
     }
   }
 }

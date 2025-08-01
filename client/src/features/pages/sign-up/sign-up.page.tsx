@@ -1,6 +1,6 @@
 import { LOGIN_ROUTE, STUDENTS_ROUTE } from '@constants/routes.constants';
-import { AuthService } from '@services/auth.service';
 import { useNavigate } from '@solidjs/router';
+import { authStore } from '@stores/auth.store';
 import { FormField } from '@ui/components/form-field';
 import { PasswordField } from '@ui/components/password-field';
 import { createStore } from 'solid-js/store';
@@ -8,7 +8,7 @@ import { createStore } from 'solid-js/store';
 type SignUpFormFields = 'username' | 'email' | 'password' | 'confirmPassword';
 
 export const SignUpPage = () => {
-  const authService = new AuthService();
+  const { isAuthenticated, register } = authStore;
   const navigate = useNavigate();
 
   const [store, setStore] = createStore({
@@ -38,11 +38,9 @@ export const SignUpPage = () => {
     };
 
     try {
-      const response = await authService.signUp(payload);
+      await register(payload);
 
-      localStorage.setItem('access_token', response.data.access_token);
-
-      if (response.status === 200) {
+      if (isAuthenticated()) {
         navigate(STUDENTS_ROUTE, { replace: true });
       }
     } catch (error) {
