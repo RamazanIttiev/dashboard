@@ -2,6 +2,7 @@ import { render } from 'solid-js/web';
 
 import './index.css';
 import 'flyonui/flyonui.js';
+// import '@testing-library/jest-dom';
 import { App } from './app';
 
 const root = document.getElementById('root');

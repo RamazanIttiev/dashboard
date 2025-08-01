@@ -35,7 +35,6 @@ export class AuthService {
       if (token) {
         await axios.post(LOGOUT_URL, {}, { headers: { Authorization: `Bearer ${token}` } });
       }
-      localStorage.removeItem('access_token');
     } catch (error) {
       console.error('Error during logout:', error);
     }

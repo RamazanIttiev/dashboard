@@ -1,60 +1,44 @@
 import { HOME_ROUTE, LOGIN_ROUTE, STUDENTS_ROUTE } from '@constants/routes.constants';
-import { AuthService } from '@services/auth.service';
 import { Navigate, useLocation, useNavigate } from '@solidjs/router';
+import { authStore } from '@stores/auth.store';
 import { createSignal, Match, onMount, ParentProps, Switch } from 'solid-js';
 
 export const RouteGuard = (props: ParentProps) => {
-  const [isAuthenticated, setIsAuthenticated] = createSignal<boolean | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const authService = new AuthService();
+  const { isAuthenticated, validateToken, refreshToken } = authStore;
+
+  const [isLoading, setIsLoading] = createSignal(true);
 
   onMount(async () => {
-    const token = localStorage.getItem('access_token');
+    const valid = await validateToken();
 
-    if (!token) {
-      setIsAuthenticated(false);
-      return;
-    }
-
-    const { isValid } = await authService.validateToken(token);
-
-    if (isValid) {
-      setIsAuthenticated(true);
-
-      if (location.pathname === HOME_ROUTE) {
-        navigate(STUDENTS_ROUTE);
+    if (valid) {
+      if (isAuthenticated() && location.pathname === HOME_ROUTE) {
+        navigate(STUDENTS_ROUTE, { replace: true });
       }
+    } else {
+      try {
+        await refreshToken();
 
-      return;
-    }
-
-    // Token invalid → try refresh
-    try {
-      const { access_token } = await authService.refreshToken();
-
-      if (access_token) {
-        localStorage.setItem('access_token', access_token);
-        setIsAuthenticated(true);
-
-        if (location.pathname === HOME_ROUTE) {
-          navigate(STUDENTS_ROUTE);
+        if (isAuthenticated() && location.pathname === HOME_ROUTE) {
+          navigate(STUDENTS_ROUTE, { replace: true });
         }
-      } else {
-        setIsAuthenticated(false);
+      } catch (err) {
+        navigate(LOGIN_ROUTE, { replace: true });
       }
-    } catch (err) {
-      setIsAuthenticated(false);
     }
+
+    setIsLoading(false); // mark loading as complete
   });
 
   return (
     <Switch>
-      <Match when={isAuthenticated() === null}>
+      <Match when={isLoading()}>
         <div>Loading...</div>
       </Match>
       <Match when={isAuthenticated()}>{props.children}</Match>
-      <Match when={isAuthenticated() === false}>
+      <Match when={!isAuthenticated()}>
         <Navigate href={LOGIN_ROUTE} />
       </Match>
     </Switch>
