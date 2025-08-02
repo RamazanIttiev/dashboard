@@ -1,13 +1,15 @@
 import { STUDENTS_ROUTE } from '@constants/routes.constants';
-import { Student } from '@features/students/student.model';
 import { useNavigate } from '@solidjs/router';
+import { studentsStore } from '@stores/students/students.store';
 import { FormField } from '@ui/components/form-field';
 import { createStore } from 'solid-js/store';
+import { Student } from '@models/student.model';
 
 export const CreateStudentForm = () => {
   const navigate = useNavigate();
+  const { createStudent } = studentsStore;
+
   const [student, setStudent] = createStore<Student>({
-    id: '',
     name: '',
     surname: '',
     email: '',
@@ -28,11 +30,9 @@ export const CreateStudentForm = () => {
     e.preventDefault();
     e.stopPropagation();
 
-    // Here you would typically send the student data to your backend
-    console.log('Student data submitted:', student);
+    await createStudent(student);
 
-    // After submission, you might want to navigate back or show a success message
-    // navigate(STUDENTS_ROUTE);
+    navigate(STUDENTS_ROUTE);
   };
 
   return (
