@@ -1,6 +1,6 @@
 import { HOME_ROUTE, LOGIN_ROUTE, STUDENTS_ROUTE } from '@constants/routes.constants';
 import { Navigate, useLocation, useNavigate } from '@solidjs/router';
-import { authStore } from '@stores/auth.store';
+import { authStore } from '@stores/auth/auth.store';
 import { createSignal, Match, onMount, ParentProps, Switch } from 'solid-js';
 
 export const RouteGuard = (props: ParentProps) => {

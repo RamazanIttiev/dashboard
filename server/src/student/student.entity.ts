@@ -10,11 +10,11 @@ export class CreateStudentDto {
 
   @IsNotEmpty()
   @IsEmail()
-  email: string;
+  email?: string;
 
   @IsNotEmpty()
   @IsPhoneNumber('RU')
-  phone: string;
+  phone?: string;
 
   age?: number;
   city?: string;
@@ -31,11 +31,11 @@ export class Student {
   @Column()
   surname: string;
 
-  @Column()
-  email: string;
+  @Column({ nullable: true })
+  email?: string;
 
-  @Column()
-  phone: string;
+  @Column({ nullable: true })
+  phone?: string;
 
   @Column({ nullable: true })
   age?: number;
