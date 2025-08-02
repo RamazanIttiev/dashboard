@@ -35,7 +35,7 @@ describe('authStore', () => {
     localStorageMock.clear.mockClear();
 
     // Import the store after mocking
-    const { authStore: store } = await import('@stores/auth.store');
+    const { authStore: store } = await import('@stores/auth/auth.store');
     authStore = store;
 
     // Get the mocked AuthService

@@ -1,6 +1,6 @@
 import { LOGIN_ROUTE, STUDENTS_ROUTE } from '@constants/routes.constants';
 import { useNavigate } from '@solidjs/router';
-import { authStore } from '@stores/auth.store';
+import { authStore } from '@stores/auth/auth.store';
 import { FormField } from '@ui/components/form-field';
 import { PasswordField } from '@ui/components/password-field';
 import { createStore } from 'solid-js/store';

@@ -4,7 +4,7 @@ import { SidebarHeader } from '@features/sidebar/components/sidebar-header/sideb
 import { SidebarMain } from '@features/sidebar/components/sidebar-main/sidebar-main.component';
 import { SidebarMenuItem } from '@features/sidebar/components/sidebar-menu/sidebar-menu.component';
 import { useNavigate } from '@solidjs/router';
-import { authStore } from '@stores/auth.store';
+import { authStore } from '@stores/auth/auth.store';
 import { JSX } from 'solid-js';
 
 const menuItems: SidebarMenuItem[] = [
